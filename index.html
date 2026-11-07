@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20382b">
+  <title>Santa’s Secret Wishlist</title>
+  <style>
+    :root {
+      --forest: #20382b;
+      --forest-light: #315440;
+      --cream: #fbf8f0;
+      --paper: #fffdf8;
+      --gold: #b58b45;
+      --ink: #29332d;
+      --muted: #6d756e;
+      --line: #e7e0d2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.55;
+    }
+    .top {
+      background: var(--forest);
+      color: var(--cream);
+      text-align: center;
+      padding: 38px 18px 34px;
+      position: relative;
+      overflow: hidden;
+    }
+    .top::before, .top::after {
+      content: "✦";
+      color: #d6b878;
+      position: absolute;
+      font-size: 23px;
+      opacity: .85;
+    }
+    .top::before { left: calc(50% - 150px); top: 35px; }
+    .top::after { right: calc(50% - 150px); top: 53px; font-size: 15px; }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font: 11px/1.5 Arial, sans-serif;
+      color: #e3cf9f;
+    }
+    h1 { font-size: clamp(2.15rem, 7vw, 3.3rem); font-weight: 400; margin: 12px 0 8px; line-height: 1.08; }
+    .top p { max-width: 440px; margin: 0 auto; color: #f1ecdf; font-size: 1rem; }
+    .sprig { color: #c7d1bd; letter-spacing: .35em; margin-top: 18px; font-size: 15px; }
+    main { width: min(100% - 28px, 680px); margin: 26px auto 42px; }
+    .intro {
+      text-align: center; margin: 0 auto 22px; max-width: 560px;
+      font-size: 1rem; color: #4d594f;
+    }
+    form {
+      background: var(--paper); border: 1px solid var(--line);
+      border-radius: 18px; padding: clamp(18px, 5vw, 34px);
+      box-shadow: 0 8px 30px rgba(34, 49, 37, .06);
+    }
+    .section-label {
+      display: flex; align-items: center; gap: 10px;
+      margin: 25px 0 14px; color: var(--forest);
+      font-size: 1.18rem; font-weight: 400;
+    }
+    .section-label:first-child { margin-top: 0; }
+    .section-label::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+    .field { margin: 0 0 19px; }
+    label, legend { display: block; font-size: .98rem; margin-bottom: 7px; color: var(--forest); }
+    .hint { display: block; color: var(--muted); font: 12px/1.5 Arial, sans-serif; margin-top: 4px; }
+    input[type="text"], input[type="email"], input[type="url"], textarea, select {
+      width: 100%; border: 1px solid #d9d8ce; border-radius: 9px;
+      background: #fff; color: var(--ink); padding: 12px 13px;
+      font: 15px/1.45 Arial, sans-serif; outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--forest-light); box-shadow: 0 0 0 3px rgba(49,84,64,.1); }
+    textarea { resize: vertical; min-height: 86px; }
+    fieldset { border: 0; padding: 0; margin: 0 0 19px; }
+    .choices { display: grid; gap: 9px; }
+    .choice {
+      display: flex; align-items: flex-start; gap: 10px; padding: 11px 12px;
+      border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+      background: #fffefb; margin: 0; color: var(--ink);
+      font: 14px/1.45 Arial, sans-serif;
+    }
+    .choice input { accent-color: var(--forest); margin-top: 3px; flex: 0 0 auto; }
+    .group-box {
+      background: #f4f3e9; border-left: 3px solid var(--gold);
+      border-radius: 0 9px 9px 0; padding: 14px; margin-top: 12px;
+    }
+    .group-box[hidden] { display: none; }
+    button {
+      width: 100%; border: 0; border-radius: 999px; padding: 15px 20px;
+      background: var(--forest); color: white; font: 15px Arial, sans-serif;
+      letter-spacing: .02em; cursor: pointer; transition: background .15s ease;
+      margin-top: 4px;
+    }
+    button:hover { background: var(--forest-light); }
+    .privacy { text-align: center; color: var(--muted); font: 11px/1.5 Arial, sans-serif; margin: 13px 0 0; }
+    footer { text-align: center; color: #7c8378; font-size: .88rem; padding: 0 16px 28px; }
+    .success {
+      display: none; text-align: center; background: var(--paper);
+      border: 1px solid var(--line); border-radius: 18px; padding: 32px 22px;
+    }
+    .success h2 { color: var(--forest); font-weight: 400; font-size: 1.8rem; }
+    .success p { color: #4d594f; }
+    .small-star { color: var(--gold); font-size: 1.3rem; }
+    @media (min-width: 600px) {
+      .choices.two-col { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="eyebrow">A little Christmas magic</div>
+    <h1>Santa’s Secret<br>Wishlist</h1>
+    <p>A few little clues to help make your Christmas extra lovely.</p>
+    <div class="sprig" aria-hidden="true">✳　✦　✳</div>
+  </header>
+
+  <main>
+    <p class="intro">Fill this in with anything that would make you smile. No pressure to have an answer for everything — ideas are welcome, and surprises are still very much allowed!</p>
+
+    <form id="wishlistForm" action="https://formsubmit.co/denaethemartin@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="🎄 A new Santa’s Secret Wishlist!">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_autoresponse" value="Thanks for sending your Christmas wishlist! Your ideas have safely made it to Santa. 🎄">
+
+      <h2 class="section-label">First things first</h2>
+      <div class="field">
+        <label for="name">What should Santa call you? <span aria-hidden="true">*</span></label>
+        <input id="name" name="Name" type="text" autocomplete="name" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="email">Your email (optional)</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Only if you’d like to include it">
+        <span class="hint">This is optional — it just helps if someone needs to check a detail with you.</span>
+      </div>
+
+      <h2 class="section-label">Your wishlist</h2>
+      <div class="field">
+        <label for="want">Something I’d love</label>
+        <textarea id="want" name="Something I’d love" placeholder="A wish-list item, a little luxury, something I keep eyeing up…"></textarea>
+      </div>
+      <div class="field">
+        <label for="need">Something I need</label>
+        <textarea id="need" name="Something I need" placeholder="Useful things are welcome too!"></textarea>
+      </div>
+      <div class="field">
+        <label for="wear">Something to wear</label>
+        <textarea id="wear" name="Something to wear" placeholder="Clothing, accessories, slippers, pyjamas…"></textarea>
+      </div>
+      <div class="field">
+        <label for="read">Something to read</label>
+        <textarea id="read" name="Something to read" placeholder="Books, magazines, puzzles…"></textarea>
+      </div>
+      <div class="field">
+        <label for="treat">A little treat or stocking filler</label>
+        <textarea id="treat" name="Little treat or stocking filler" placeholder="Small things that would make your day"></textarea>
+      </div>
+      <div class="field">
+        <label for="experience">An experience I’d enjoy</label>
+        <textarea id="experience" name="Experience" placeholder="A meal out, activity, class, outing, or something to do together"></textarea>
+      </div>
+      <div class="field">
+        <label for="obsession">Something I’m currently obsessed with</label>
+        <textarea id="obsession" name="Current obsession" placeholder="A hobby, snack, show, product, or new interest…"></textarea>
+      </div>
+
+      <h2 class="section-label">The useful details</h2>
+      <div class="field">
+        <label for="details">Favourite brands, colours, sizes or links</label>
+        <textarea id="details" name="Brands, colours, sizes and links" placeholder="Specific links are especially helpful!"></textarea>
+      </div>
+      <div class="field">
+        <label for="groupgift">A bigger-ticket idea for a group gift</label>
+        <textarea id="groupgift" name="Bigger idea for a group gift" placeholder="Totally optional — only if there’s something you’d love people to go in together on"></textarea>
+      </div>
+      <div class="field">
+        <label for="avoid">Things I’d rather not receive</label>
+        <textarea id="avoid" name="Things to avoid" placeholder="Anything you already have, don’t use, or would prefer to skip"></textarea>
+      </div>
+      <div class="field">
+        <label for="anything">Anything else Santa should know?</label>
+        <textarea id="anything" name="Anything else" placeholder="Add any other ideas or helpful hints here"></textarea>
+      </div>
+
+      <button type="submit">Send to Santa ✦</button>
+      <p class="privacy">Your answers will be sent to the family organiser by email. The form is just for Christmas gift ideas — no need to overthink it.</p>
+    </form>
+
+    <section class="success" id="successMessage" aria-live="polite">
+      <div class="small-star">✦ ✦ ✦</div>
+      <h2>Your wishlist is on its way!</h2>
+      <p>Thanks for helping Santa out. May your Christmas be full of lovely little surprises. 🎄</p>
+    </section>
+  </main>
+  <footer>Made with a little Christmas magic ✨</footer>
+
+  <script>
+    // This optional AJAX submission keeps people on this page and shows a thank-you message.
+    // Replace YOUR_EMAIL_ADDRESS in the form action below before publishing.
+    const form = document.getElementById('wishlistForm');
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const button = form.querySelector('button[type="submit"]');
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending your wishlist…';
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/denaethemartin@gmail.com', {
+          method: 'POST',
+          body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        });
+        if (!response.ok) throw new Error('Submission failed');
+        const result = await response.json();
+        if (result.success === 'false' || result.success === false) throw new Error('Submission failed');
+        form.style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = originalText;
+        alert('Sorry, your wishlist could not be sent just now. Please check your connection and try again. If this keeps happening, contact the person who shared the form.');
+      }
+    });
+  </script>
+</body>
+</html>
